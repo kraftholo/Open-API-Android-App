@@ -33,6 +33,7 @@ abstract class BaseAccountFragment : DaggerFragment(){
         viewModel = activity?.run {
             ViewModelProvider(this, providerFactory).get(AccountViewModel::class.java)
         }?: throw Exception("Invalid Activity")
+        cancelActiveJobs()                                                                          //called to stop all active jobs when navigating betwween fragments!
     }
 
     /*
@@ -54,6 +55,10 @@ abstract class BaseAccountFragment : DaggerFragment(){
         }catch(e: ClassCastException){
             Log.e(TAG, "$context must implement DataStateChangeListener" )
         }
+    }
+
+    fun cancelActiveJobs() {
+        viewModel.cancelActiveJobs()
     }
 }
 

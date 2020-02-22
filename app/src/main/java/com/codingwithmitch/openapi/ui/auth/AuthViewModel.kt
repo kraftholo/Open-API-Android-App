@@ -39,7 +39,9 @@ constructor(
                 return authRepository.checkPreviousAuthUser()
             }
 
-
+            is None -> {
+                return AbsentLiveData.create()
+            }
         }
     }
 
@@ -75,9 +77,14 @@ constructor(
     }
 
     fun cancelActiveJobs(){
+        handlePendingData()
         authRepository.cancelActiveJobs()
     }
 
+    //called on cancelling active jobs to stop the progressbar!
+    private fun handlePendingData(){
+        setStateEvent(None())
+    }
 
     override fun onCleared() {
         super.onCleared()
